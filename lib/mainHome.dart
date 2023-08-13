@@ -24,7 +24,8 @@ class _mainHomeState extends State<mainHome> {
   final List<movieData> movieList = List.generate(
       movieName.length,
           (index) =>
-          movieData('${movieName[index]}','${movieYear[index]}', '${movieRate[index]}', '${imageURL[index]}'));
+          movieData('${movieName[index]}', '${movieYear[index]}',
+              '${movieRate[index]}', '${imageURL[index]}'));
 
 
   List<movieData>? movieDataList = [];
@@ -38,23 +39,58 @@ class _mainHomeState extends State<mainHome> {
       ),
       backgroundColor: Colors.black,
       body: ListView.builder(
-
         itemCount: movieList.length,
         itemBuilder: (context, index) {
           return Card(
             margin: EdgeInsets.all(10),
             color: Colors.amber,
-            child: ListTile(
-              title: Text(movieList[index].movieName, style: TextStyle(
-                fontWeight: FontWeight.bold,
-              )),subtitle: Text(movieList[index].movieYear),
-              leading: SizedBox(
-                width: 50,
-                height: 50,
-                child: Image(
-                  image: NetworkImage(movieList[index].imageURL),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ListTile(
+                  title: Text(movieList[index].movieName, style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )
+                  ),
+                  subtitle: Text(movieList[index].movieYear),
+                  leading: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Image(
+                      image: NetworkImage(movieList[index].imageURL),
+                    ),
+                  ),
                 ),
-              ),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(movieList[index].movieName),
+                          content: Text("Rating: ${movieList[index].movieRate}"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Close"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Text("Show Dialog", style: TextStyle(
+                      color: Colors.amber[600]
+                  ),
+                  ),
+                ),
+              ],
             ),
           );
         },
@@ -62,3 +98,5 @@ class _mainHomeState extends State<mainHome> {
     );
   }
 }
+
+
